@@ -4,17 +4,21 @@ var SearchBar = React.createClass({
 
   onSubmit: function(e) {
     e.preventDefault();
-    // console.log("BOO!");
+    this.props.onSearch(this.state.keyword);
   },
 
-  updateKeyword: function() {
+  getInitialState: function() {
+    return {keyword: ""};
+  },
+
+  updateKeyword: function(e) {
     this.setState({keyword: e.target.value});
   },
 
   render: function() {
     return (
       <form onSubmit={this.onSubmit}>
-        <input type="text" className="search-box" placeholder="Hit me." />
+        <input onChange={this.updateKeyword} type="text" className="search-box" value={this.state.keyword} placeholder="Hit me." />
         <input type="submit" value="Search" />
       </form>  
       );
@@ -24,12 +28,12 @@ var SearchBar = React.createClass({
 
 var SearchBox = React.createClass({
  
-  logVolume: function(keyword) {
+  logKeyword: function(keyword) {
     console.log("keyword:", keyword);
   },
 
   render: function() {
-    return <SearchBar/>;
+    return <SearchBar onSearch={this.logKeyword} />;
  }   
 })
 
@@ -41,4 +45,5 @@ $(function(){
 // Questions:
 // Props?
 // State?
+// Why isn't this preventing the default action in onSubmit?
 // Where to begin with tracking the keyword??
